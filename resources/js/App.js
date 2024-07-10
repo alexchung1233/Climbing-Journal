@@ -1,14 +1,30 @@
-import React from "react"
+import React, {createContext, useContext, useState} from "react"
 
 const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
 function daysInMonth(year, month) {
      return new Date(year, month-1, 0).getDate();
 }
 
+const CalenderDateContext = createContext();
+
+const CalenderDateProvider = (props) => {
+
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    return (
+        <CalenderDateContext.Provider value={{currentDate, setCurrentDate}}>
+            {props.children}
+        </CalenderDateContext.Provider>
+    )
+
+}
+
 // Search bar
 function Calender() {
-
-    let currentDate = new Date()
+    // What is this?
+    let {currentDate} = useContext(CalenderDateContext);
+    console.log(currentDate.toDateString())
+    // let currentDate = new Date()
     return (
         <div>
             <CurrentDateTitle dateString={currentDate.toDateString()}/>
@@ -20,29 +36,54 @@ function Calender() {
 
 function CurrentDateTitle({dateString}){
     console.log(`Current month ${dateString}`)
+
+    let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
     return (
+        <div>
+        <button onClick={()=>{
+            setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth()-1), 1)
+        }}
+                className={"prev-month-button"}>Prev</button>
         <p>
             {dateString}
         </p>
+            <button onClick = {() => {
+                setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth()+1), 1)
+            }}
+                className={"next-month-button"}>Next</button>
+        </div>
     )
 }
 
-function CalenderBody({currMonth, currYear}){
+function CalenderBody(){
     return (
         <table>
             <thead>
                 <DaysOfWeekRow/>
             </thead>
             <tbody>
-                <DaysOfMonth currMonth={currMonth} currYear={currYear}/>
+                <DaysOfMonth/>
             </tbody>
         </table>
     )
 }
 //given a day of the month, find the corresponding day number
 
+function DayButton({day}){
+    let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
+    return (
+        <button onClick={()=>{
+            console.log(day)
+            setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))
+        }}>{day}</button>
+    )
 
-function DaysOfMonth({currMonth, currYear}){
+}
+
+function DaysOfMonth(){
+    let {currentDate} = useContext(CalenderDateContext);
+    let currMonth = currentDate.getMonth()
+    let currYear = currentDate.getFullYear()
     console.log(`Curr month ${currMonth} curr year ${currYear}`)
 
     let numOfDays = daysInMonth(currYear, currMonth);
@@ -55,7 +96,7 @@ function DaysOfMonth({currMonth, currYear}){
     // Gets the days before the current first day of the month
     for(let prevMonthDay = firstDay; prevMonthDay > 0; prevMonthDay--){
         row.push(
-            <th><button>{(lastDatePrevMonth-prevMonthDay).toString()}</button></th>
+            <th><DayButton day={(lastDatePrevMonth-prevMonthDay).toString()}/></th>
         )
     }
     let currRow = row
@@ -65,7 +106,7 @@ function DaysOfMonth({currMonth, currYear}){
             currRow = [];
         }
         currRow.push(
-            <th><button>{(day).toString()}</button></th>
+            <th><DayButton day={day}/></th>
         )
     }
 
@@ -137,7 +178,10 @@ function ClimbingJournalBody() {
     );
 }
 
-
 export default function App() {
-    return <ClimbingJournalBody />;
+    return(
+        <CalenderDateProvider>
+         <ClimbingJournalBody />
+        </CalenderDateProvider>
+    )
 }
