@@ -6,7 +6,8 @@ module.exports = {
   mode: 'development',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle.js',
+    filename: 'main.js',
+    clean: true
   },
   target: 'web',
   devServer: {
@@ -34,5 +35,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html')
     })
-  ]
+  ],
+  watchOptions: {
+    ignored: ['**/files/**/*.js', '**/node_modules'],
+  },
 };
