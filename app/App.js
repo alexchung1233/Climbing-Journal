@@ -1,6 +1,14 @@
-import React, {createContext, useContext, useState} from "react"
+import React, {createContext, useContext, useState, useEffect} from "react"
+import JournalLog from "./components/JournalLog"
+import {
+    Label, 
+    Button
+} 
+    from "reactstrap"
 
 const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
+const LOCAL_BE_SERVER_HOST = 'http://localhost:5000'
+
 function daysInMonth(year, month) {
      return new Date(year, month-1, 0).getDate();
 }
@@ -40,17 +48,17 @@ function CurrentDateTitle({dateString}){
     let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
     return (
         <div>
-        <button onClick={()=>{
+        <Button onClick={()=>{
             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth()-1), 1)
         }}
-                className={"prev-month-button"}>Prev</button>
-        <p>
+                className={"prev-month-button"}>Prev</Button>
+        <Label>
             {dateString}
-        </p>
-            <button onClick = {() => {
+        </Label>
+            <Button onClick = {() => {
                 setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth()+1), 1)
             }}
-                className={"next-month-button"}>Next</button>
+                className={"next-month-button"}>Next</Button>
         </div>
     )
 }
@@ -72,10 +80,10 @@ function CalenderBody(){
 function DayButton({day}){
     let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
     return (
-        <button onClick={()=>{
+        <Button onClick={()=>{
             console.log(day)
             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))
-        }}>{day}</button>
+        }}>{day}</Button>
     )
 
 }
@@ -129,43 +137,28 @@ function DaysOfWeekRow() {
     )
 }
 function JournalLogNotes() {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/journal-logs',{
+            headers: {
+                'Access-Control-Request-Method': 'GET'
+            }
+        })
+        .then((response) => response.json()).then((json) =>
+             {setData(json);console.log(json)}).catch((error) => console.log(error))
+    }, []);
+
     return (
         <div>
             <p>Session Notes</p>
             <form>
-                <input type="text"></input>
+                <input type="text" defaultValue={JSON.stringify(data)}></input>
             </form>
         </div>
 
     )
-
 }
-
-function JournalGradeNotes() {
-    return (
-        <div>
-            <p>Highest grade </p>
-            <form>
-                <input type="text"></input>
-            </form>
-
-            <p>Grade total </p>
-            <form>
-                <input type="text"></input>
-            </form>
-        </div>
-    )
-}
-
-function JournalLog() {
-    return (
-        <div>
-            <JournalGradeNotes/>
-            <JournalLogNotes/>
-        </div>
-    )
-}
-
 
 // Parent component containing search bar and product table
 function ClimbingJournalBody() {

@@ -2,10 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server to serve the journal react app",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alex Chung",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.5.1"
+  }
 }
