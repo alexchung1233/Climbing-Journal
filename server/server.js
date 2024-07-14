@@ -14,7 +14,12 @@ app.get("/user/:userId/logs", async (req, res) => {
     console.log("Hitting GET endpoint for user %s")
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
+    const user = await User.findById(userId);
+    const logIds = user.logs.map((x)=>x["_id"])
+    console.log(logIds)
+    const logs = await Log.find({_id: {$in: logIds}})
+    console.log(logs)
+    res.json({"logs": logs})
 });
 
 app.post("/user/:userId/log", async (req, res) => {
