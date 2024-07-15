@@ -19,7 +19,8 @@ app.get("/user/:userId/logs", async (req, res) => {
     console.log(logIds)
     const logs = await Log.find({_id: {$in: logIds}})
     console.log(logs)
-    res.json({"logs": logs})
+    res.setHeader('Content-Type', 'application/json');
+    res.send({"logs": logs})
 });
 
 app.post("/user/:userId/log", async (req, res) => {
@@ -35,7 +36,7 @@ app.post("/user/:userId/log", async (req, res) => {
         console.error("Must include userId")
         return res.status(400).send("Must include userId")
     }
-
+    // Check if a log already exists for a given day
     const log = await Log.create({
         "userId": userId,
         "notes": notes,

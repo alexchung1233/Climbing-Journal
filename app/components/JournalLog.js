@@ -8,7 +8,14 @@ import {
     Col,
 } from 'reactstrap'
 
-const JournalLog= () => {
+const JournalLog= ({journalLogData}) => {
+    var notes = ''
+
+    if(journalLogData){
+        notes = journalLogData.logs[0]["notes"]
+        console.log(journalLogData);
+    }
+
     return (
         <div>
             <Form>
@@ -29,7 +36,8 @@ const JournalLog= () => {
                 </Row>
                 <Row>
                     <Label>Notes</Label>
-                    <Input type="textarea"></Input>
+                    <Input type="textarea" defaultValue={notes}></Input>
+                    <p>{notes}</p>
                 </Row>
             </Form>
         </div>

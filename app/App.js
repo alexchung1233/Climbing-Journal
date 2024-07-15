@@ -1,9 +1,10 @@
 import React, {createContext, useContext, useState, useEffect} from "react"
+import { ClimbingJournalContext } from "./ClimbingJournalContext"
 import JournalLog from "./components/JournalLog"
 import {
     Label, 
     Button
-} 
+}
     from "reactstrap"
 
 const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
@@ -13,16 +14,14 @@ function daysInMonth(year, month) {
      return new Date(year, month-1, 0).getDate();
 }
 
-const CalenderDateContext = createContext();
-
-const CalenderDateProvider = (props) => {
+const ClimbingJournalProvider = (props) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
-
+    const [userId, setUserId] = useState("6693f55bb46c34a555243fd9")
     return (
-        <CalenderDateContext.Provider value={{currentDate, setCurrentDate}}>
+        <ClimbingJournalContext.Provider value={{currentDate, setCurrentDate, userId, setUserId}}>
             {props.children}
-        </CalenderDateContext.Provider>
+        </ClimbingJournalContext.Provider>
     )
 
 }
@@ -30,7 +29,7 @@ const CalenderDateProvider = (props) => {
 // Search bar
 function Calender() {
     // What is this?
-    let {currentDate} = useContext(CalenderDateContext);
+    let {currentDate} = useContext(ClimbingJournalContext);
     console.log(currentDate.toDateString())
     // let currentDate = new Date()
     return (
@@ -45,7 +44,7 @@ function Calender() {
 function CurrentDateTitle({dateString}){
     console.log(`Current month ${dateString}`)
 
-    let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
+    let {currentDate, setCurrentDate} = useContext(ClimbingJournalContext);
     return (
         <div>
         <Button onClick={()=>{
@@ -78,7 +77,7 @@ function CalenderBody(){
 //given a day of the month, find the corresponding day number
 
 function DayButton({day}){
-    let {currentDate, setCurrentDate} = useContext(CalenderDateContext);
+    let {currentDate, setCurrentDate} = useContext(ClimbingJournalContext);
     return (
         <Button onClick={()=>{
             console.log(day)
@@ -89,7 +88,7 @@ function DayButton({day}){
 }
 
 function DaysOfMonth(){
-    let {currentDate} = useContext(CalenderDateContext);
+    let {currentDate} = useContext(ClimbingJournalContext);
     let currMonth = currentDate.getMonth()
     let currYear = currentDate.getFullYear()
     console.log(`Curr month ${currMonth} curr year ${currYear}`)
@@ -136,45 +135,36 @@ function DaysOfWeekRow() {
         <tr>{column_days}</tr>
     )
 }
-function JournalLogNotes() {
-    const [data, setData] = useState(null);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/journal-logs',{
-            headers: {
-                'Access-Control-Request-Method': 'GET'
-            }
-        })
-        .then((response) => response.json()).then((json) =>
-             {setData(json);console.log(json)}).catch((error) => console.log(error))
-    }, []);
-
-    return (
-        <div>
-            <p>Session Notes</p>
-            <form>
-                <input type="text" defaultValue={JSON.stringify(data)}></input>
-            </form>
-        </div>
-
-    )
-}
 
 // Parent component containing search bar and product table
 function ClimbingJournalBody() {
+
+    let {userId} = useContext(ClimbingJournalContext);
+    const [journalLog, setJournalLog] = useState(null);
+    useEffect(() => {
+        fetch(new URL(`/user/${userId}/logs`, LOCAL_BE_SERVER_HOST)).
+        then((response)=>{return response.json()}).
+        then((json)=>{setJournalLog(json)})
+        }, []
+    )
+    console.log(journalLog)
+
     return (
         <div>
             <h1>My Climbing Journal</h1>
             <Calender />
-            <JournalLog />
+            <JournalLog journalLogData={journalLog}/>
         </div>
     );
 }
 
+export {ClimbingJournalContext}
+
 export default function App() {
     return(
-        <CalenderDateProvider>
-         <ClimbingJournalBody />
-        </CalenderDateProvider>
+        <ClimbingJournalProvider>
+        <ClimbingJournalBody />
+        </ClimbingJournalProvider>
     )
 }
