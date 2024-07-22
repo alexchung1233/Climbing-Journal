@@ -7,13 +7,14 @@ import {
     Row,
     Col,
 } from 'reactstrap'
+import PropTypes from 'prop-types'; // ES6
 
-const JournalLog= ({journalLogData}) => {
+const JournalLog= ({journalLogs}) => {
     var notes = ''
 
-    if(journalLogData){
-        notes = journalLogData.logs[0]["notes"]
-        console.log(journalLogData);
+    if(journalLogs){
+        notes = journalLogs[0]["notes"]
+        console.log(journalLogs);
     }
 
     return (
@@ -35,13 +36,16 @@ const JournalLog= ({journalLogData}) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Label>Notes</Label>
+                    <Label>Session Notes</Label>
                     <Input type="textarea" defaultValue={notes}></Input>
-                    <p>{notes}</p>
                 </Row>
             </Form>
         </div>
     )
+}
+
+JournalLog.propTypes = {
+    journalLogs: PropTypes.object
 }
 
 export default JournalLog

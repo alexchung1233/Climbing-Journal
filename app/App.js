@@ -16,7 +16,9 @@ function daysInMonth(year, month) {
 
 const ClimbingJournalProvider = (props) => {
 
-    const [currentDate, setCurrentDate] = useState(new Date());
+    var defaultDate = new Date()
+    defaultDate.setHours(0,0,0,0)
+    const [currentDate, setCurrentDate] = useState(defaultDate);
     const [userId, setUserId] = useState("6693f55bb46c34a555243fd9")
     return (
         <ClimbingJournalContext.Provider value={{currentDate, setCurrentDate, userId, setUserId}}>
@@ -140,21 +142,22 @@ function DaysOfWeekRow() {
 // Parent component containing search bar and product table
 function ClimbingJournalBody() {
 
+    let {currentDate} = useContext(ClimbingJournalContext);
     let {userId} = useContext(ClimbingJournalContext);
-    const [journalLog, setJournalLog] = useState(null);
+    const [journalLogs, setJournalLog] = useState(null);
+    console.log(`Current date ${currentDate.toISOString()}`)
     useEffect(() => {
-        fetch(new URL(`/user/${userId}/logs`, LOCAL_BE_SERVER_HOST)).
+        fetch(new URL(`/user/${userId}/logs?start_date=${currentDate.toISOString()}`, LOCAL_BE_SERVER_HOST)).
         then((response)=>{return response.json()}).
-        then((json)=>{setJournalLog(json)})
+        then((json)=>{setJournalLog(json.logs)})
         }, []
     )
-    console.log(journalLog)
 
     return (
         <div>
             <h1>My Climbing Journal</h1>
             <Calender />
-            <JournalLog journalLogData={journalLog}/>
+            <JournalLog journalLogs={journalLogs}/>
         </div>
     );
 }

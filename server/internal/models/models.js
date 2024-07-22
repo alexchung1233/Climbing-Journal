@@ -12,8 +12,8 @@ const logSchema = new Schema(
         notes: String,
         views: Number,
         highestGrade: String,
-        createdAt: Number,
-        updatedAt: Number,
+        createdAt: Date,
+        updatedAt: Date,
     }
 )
 
@@ -28,6 +28,7 @@ const climbSchema = new Schema(
 const userSchema  = new Schema(
     {
         name: String,
+        username: String,
         email: String,
         logs: [{
             _id: ObjectId,

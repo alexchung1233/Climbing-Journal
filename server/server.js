@@ -1,24 +1,49 @@
 import express from 'express';
 import mongoose from 'mongoose';
+
 import {User, Log} from './internal/models/models.js';
 
 const app = express();
 app.use(express.json())
 const port = process.env.PORT || 5000;
-const URI = "mongodb://localhost:27017"
-mongoose.connect(URI);
+const DB_URI = "mongodb://localhost:27017"
+mongoose.connect(DB_URI);
 
 
 app.get("/user/:userId/logs", async (req, res) => {
-    var userId = req.params["userId"]
-    console.log("Hitting GET endpoint for user %s")
+    var userId = req.params["userId"];
+    console.log("Hitting GET endpoint for user %s");
+
+
+    // Default values for arg params
+    var startDate = new Date();
+    startDate.setDate(startDate.getDate()-14);
+    var endDate = new Date()
+    if(req.query.start_date){
+        console.log(`Start date ${req.query.start_date}`)
+        startDate = new Date(req.query.start_date);
+    }
+    if(req.query.end_date){
+        endDate = new Date(req.query.endDate);
+    }
+    
+    const user = await User.findById(userId);
+    const logIds = user.logs.map((x)=>x["_id"]);
+    console.log(logIds);
+    
+    const logsQuery = {
+        $and: [
+            {_id: {$in: logIds}},
+            {createdAt: {$gte: startDate, $lte: endDate}}
+            ]
+        }
+    const logs = await Log.find(
+            logsQuery
+    ).sort({createdAt: 1})
+    console.log(logs)
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    const user = await User.findById(userId);
-    const logIds = user.logs.map((x)=>x["_id"])
-    console.log(logIds)
-    const logs = await Log.find({_id: {$in: logIds}})
-    console.log(logs)
     res.setHeader('Content-Type', 'application/json');
     res.send({"logs": logs})
 });
@@ -27,8 +52,8 @@ app.post("/user/:userId/log", async (req, res) => {
     console.log("Creating new log for user %s");
     var userId = req.params.userId || null;
     var notes = req.body.notes || null;
-    var createdAt = Date.now();
-    var updatedAt = Date.now();
+    var createdAt = new Date();
+    var updatedAt = new Date();
     var views = 0
     var highestGrade = req.body.highestGrade || null
 
