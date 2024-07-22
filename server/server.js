@@ -9,6 +9,9 @@ const port = process.env.PORT || 5000;
 const DB_URI = "mongodb://localhost:27017"
 mongoose.connect(DB_URI);
 
+app.patch("/user/:userId/log/:logId", async(req, res) => {
+    var userId = req.params["userId"];
+})
 
 app.get("/user/:userId/logs", async (req, res) => {
     var userId = req.params["userId"];
@@ -24,12 +27,11 @@ app.get("/user/:userId/logs", async (req, res) => {
         startDate = new Date(req.query.start_date);
     }
     if(req.query.end_date){
-        endDate = new Date(req.query.endDate);
+        endDate = new Date(req.query.end_date);
     }
     
     const user = await User.findById(userId);
     const logIds = user.logs.map((x)=>x["_id"]);
-    console.log(logIds);
     
     const logsQuery = {
         $and: [

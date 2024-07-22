@@ -144,20 +144,23 @@ function ClimbingJournalBody() {
 
     let {currentDate} = useContext(ClimbingJournalContext);
     let {userId} = useContext(ClimbingJournalContext);
-    const [journalLogs, setJournalLog] = useState(null);
+    const [journalLogs, setJournalLog] = useState({});
     console.log(`Current date ${currentDate.toISOString()}`)
+
+    // Get the most recent journal log for the day
     useEffect(() => {
-        fetch(new URL(`/user/${userId}/logs?start_date=${currentDate.toISOString()}`, LOCAL_BE_SERVER_HOST)).
+        let endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()+1);
+        fetch(new URL(`/user/${userId}/logs?start_date=${currentDate.toISOString()}&end_date=${endDate.toISOString()}`, LOCAL_BE_SERVER_HOST)).
         then((response)=>{return response.json()}).
-        then((json)=>{setJournalLog(json.logs)})
-        }, []
+        then((json)=>{setJournalLog(json.logs[0])}).catch(error => {console.log(error)})
+        }, [currentDate]
     )
 
     return (
         <div>
             <h1>My Climbing Journal</h1>
             <Calender />
-            <JournalLog journalLogs={journalLogs}/>
+            <JournalLog journalLog={journalLogs} userId={userId} currentDate={currentDate}/>
         </div>
     );
 }
