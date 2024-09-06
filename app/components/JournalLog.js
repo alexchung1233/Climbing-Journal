@@ -9,6 +9,7 @@ import {
     Col,
 } from 'reactstrap'
 import PropTypes from 'prop-types'; // ES6
+const LOCAL_BE_SERVER_HOST = 'http://localhost:5000'
 
 const JournalLog= ({journalLog, userId, currentDate}) => {
     const [notes, setNotes] = useState('')
@@ -32,23 +33,42 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                 <Row>
                     <Col>
                         <Button onClick={(e) => {
-                            console.log("Button clicked")
                             if(journalLog){
-                                useEffect(() => {
-                                        fetch(
-                                            new URL(`/user/${userId}/log/${logId}`, LOCAL_BE_SERVER_HOST),
-                                        {
-                                            method: 'PATCH',
-                                            headers: {
-                                                "Content-Type": 'application/json',
-                                            },
-                                        }).
-                                        then((response)=>{return response.json()})
-                                        }, []
-                                    )
-                            }
+                                fetch(
+                                    new URL(`/user/${userId}/log/${logId}`, LOCAL_BE_SERVER_HOST),
+                                {
+                                    method: "PATCH",
+                                    body: JSON.stringify({"notes": notes}),
+                                    headers: {
+                                        "Content-Type": 'application/json',
+                                        "Accept": '*/*'
+                                    },
+                                }).
+                                then((response)=>{return response.json()}).
+                                catch(e=>{console.log(e)});
+                                    }
+                            else{
+                                fetch(
+                                    new URL(`/user/${userId}/log`, LOCAL_BE_SERVER_HOST),
+                                {
+                                    method: "POST",
+                                    body: JSON.stringify({"notes": notes, "createdAt": currentDate.toISOString()}),
+                                    headers: {
+                                        "Content-Type": 'application/json',
+                                        "Accept": '*/*'
+                                    },
+                                }).
+                                then((response)=>{return response.json()}).
+                                catch(e=>{console.log(e)});
+                            }                                    
                         }}>Save</Button>
                     </Col>
+                </Row>
+                <Row>
+                    <Label>Session Notes</Label>
+                    <Input type="textarea" value={notes} onChange={(e)=>{
+                        setNotes(e.currentTarget.value);
+                    }}></Input>
                 </Row>
                 <Row>
                     <Col md={6}>
@@ -65,12 +85,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                         </FormGroup>
                     </Col>
                 </Row>
-                <Row>
-                    <Label>Session Notes</Label>
-                    <Input type="textarea" value={notes} onChange={(e)=>{
-                        setNotes(e.currentTarget.value);
-                    }}></Input>
-                </Row>
+
             </Form>
         </div>
     )

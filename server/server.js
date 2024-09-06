@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import cors from 'cors';
 import {User, Log} from './internal/models/models.js';
 
 const app = express();
@@ -10,7 +10,18 @@ const DB_URI = "mongodb://localhost:27017"
 mongoose.connect(DB_URI);
 
 app.patch("/user/:userId/log/:logId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "PATCH,GET,POST,DELETE")
+    res.setHeader('Content-Type', 'application/json');
+    console.log("Hitting PATCH for log")
     var userId = req.params["userId"];
+    var logId = req.params["logId"];
+    // Verify that the logId is contained in the userID
+
+    const log = await Log.findByIdAndUpdate(logId, req.body);
+
+    res.status(200).send(log)
 })
 
 app.get("/user/:userId/logs", async (req, res) => {
@@ -56,6 +67,12 @@ app.post("/user/:userId/log", async (req, res) => {
     var notes = req.body.notes || null;
     var createdAt = new Date();
     var updatedAt = new Date();
+    if(req.body.createdAt) {
+        createdAt = new Date(req.body.createdAt);
+    }
+    if(req.body.updatedAt) {
+        updatedAt = new Date(req.body.updatedAt);
+    }
     var views = 0
     var highestGrade = req.body.highestGrade || null
 
@@ -112,5 +129,5 @@ app.get("/users", async (req, res) => {
 })
 
 
-
+app.use(cors());
 app.listen(port, ()=>{console.log('Listening on port %d', port)});
