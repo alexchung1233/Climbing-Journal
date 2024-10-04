@@ -1,0 +1,15 @@
+services:
+  server:
+    build: .
+    ports:
+      - "8000:5000"
+  monogdb:
+    image: mongodb/mongodb-atlas-local:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - cjmongo:/home/etc/data
+volumes:
+  cjmongo:
+
+  

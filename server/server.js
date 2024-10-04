@@ -7,6 +7,8 @@ const app = express();
 app.use(express.json())
 const port = process.env.PORT || 5000;
 const DB_URI = "mongodb://localhost:27017"
+
+// If mongoose failure then catch
 mongoose.connect(DB_URI);
 
 app.patch("/user/:userId/log/:logId", async(req, res) => {
@@ -108,9 +110,8 @@ app.post("/user", async (req, res) => {
 
     if(!(name && email && password)){
         console.error("Must include name, email, and password")
-        return res.status(400).send("Must include name, email and password for new user")
+        return res.status(400).send("Must include name, email and password forgit  new user")
     }
-    2
     const user = await User.create({
         "name": name,
         "email": email,
@@ -126,6 +127,11 @@ app.get("/users", async (req, res) => {
     const users = await User.find();
     console.log(users);
     res.json(users);
+})
+
+app.get("/", async (req, res) => {
+    console.log("Healthcheck endpoint")
+    res.json({"healthcheck": true})
 })
 
 
