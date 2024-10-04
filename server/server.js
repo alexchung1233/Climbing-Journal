@@ -6,7 +6,7 @@ import {User, Log} from './internal/models/models.js';
 const app = express();
 app.use(express.json())
 const port = process.env.PORT || 5000;
-const DB_URI = "mongodb://localhost:27017"
+const DB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
 
 // If mongoose failure then catch
 mongoose.connect(DB_URI);
@@ -136,4 +136,5 @@ app.get("/", async (req, res) => {
 
 
 app.use(cors());
+console.log("Connecting to %s", DB_URI)
 app.listen(port, ()=>{console.log('Listening on port %d', port)});

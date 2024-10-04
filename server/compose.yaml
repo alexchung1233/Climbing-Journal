@@ -1,15 +1,24 @@
 services:
-  server:
-    build: .
-    ports:
-      - "8000:5000"
-  monogdb:
-    image: mongodb/mongodb-atlas-local:latest
+ mongodb:
+    image: mongodb/mongodb-community-server:latest
     ports:
       - "27017:27017"
     volumes:
-      - cjmongo:/home/etc/data
-volumes:
-  cjmongo:
+      - cj-mongo:/home/etc/data
+    networks:
+      - cj-network
+ server:
+    build: .
+    ports:
+      - "8000:5000"
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+    networks:
+      - cj-network
 
+volumes:
+  cj-mongo:
+networks:
+  cj-network:
+    driver: bridge
   
