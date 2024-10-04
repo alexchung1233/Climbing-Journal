@@ -11,6 +11,9 @@ const DB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
 // If mongoose failure then catch
 mongoose.connect(DB_URI);
 
+/**
+ * Updates logs by userId
+ */
 app.patch("/user/:userId/log/:logId", async(req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -26,6 +29,10 @@ app.patch("/user/:userId/log/:logId", async(req, res) => {
     res.status(200).send(log)
 })
 
+
+/**
+ * Gets logs by userId
+ */
 app.get("/user/:userId/logs", async (req, res) => {
     var userId = req.params["userId"];
     console.log("Hitting GET endpoint for user %s");
@@ -62,6 +69,10 @@ app.get("/user/:userId/logs", async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send({"logs": logs})
 });
+
+/**
+ * Creates a new log by userId
+ */
 
 app.post("/user/:userId/log", async (req, res) => {
     console.log("Creating new log for user %s");
@@ -102,6 +113,10 @@ app.post("/user/:userId/log", async (req, res) => {
     res.status(201).send(log)
 });
 
+
+/**
+ * Creates a new user
+ */
 app.post("/user", async (req, res) => {
     console.log("Creating new user")
     var name = req.body.name || null
@@ -122,6 +137,10 @@ app.post("/user", async (req, res) => {
     res.status(201).send(user)
 });
 
+
+/**
+ * Gets users
+ */
 app.get("/users", async (req, res) => {
     console.log("Getting all users")
     const users = await User.find();
@@ -129,12 +148,16 @@ app.get("/users", async (req, res) => {
     res.json(users);
 })
 
-app.get("/", async (req, res) => {
+
+/**
+ * Healtcheck endpoint
+ */
+app.get("/", async (_, res) => {
     console.log("Healthcheck endpoint")
     res.json({"healthcheck": true})
 })
 
 
 app.use(cors());
-console.log("Connecting to %s", DB_URI)
+console.log("Connecting to Mongodb: %s", DB_URI)
 app.listen(port, ()=>{console.log('Listening on port %d', port)});

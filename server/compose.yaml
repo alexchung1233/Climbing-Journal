@@ -13,6 +13,7 @@ services:
       - "8000:5000"
     environment:
       - MONGODB_URL=mongodb://mongodb:27017
+      - PORT=5000
     networks:
       - cj-network
 
