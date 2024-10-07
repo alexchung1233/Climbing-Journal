@@ -9,7 +9,7 @@ import {
     Col,
 } from 'reactstrap'
 import PropTypes from 'prop-types'; // ES6
-const LOCAL_BE_SERVER_HOST = 'http://localhost:5000'
+const BE_SERVER_HOST = 'http://localhost:8000'
 
 const JournalLog= ({journalLog, userId, currentDate}) => {
     const [notes, setNotes] = useState('')
@@ -35,7 +35,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                         <Button onClick={(e) => {
                             if(journalLog){
                                 fetch(
-                                    new URL(`/user/${userId}/log/${logId}`, LOCAL_BE_SERVER_HOST),
+                                    new URL(`/user/${userId}/log/${logId}`, BE_SERVER_HOST),
                                 {
                                     method: "PATCH",
                                     body: JSON.stringify({"notes": notes}),
@@ -46,10 +46,10 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                                 }).
                                 then((response)=>{return response.json()}).
                                 catch(e=>{console.log(e)});
-                                    }
+                            }
                             else{
                                 fetch(
-                                    new URL(`/user/${userId}/log`, LOCAL_BE_SERVER_HOST),
+                                    new URL(`/user/${userId}/log`, BE_SERVER_HOST),
                                 {
                                     method: "POST",
                                     body: JSON.stringify({"notes": notes, "createdAt": currentDate.toISOString()}),

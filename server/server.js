@@ -5,8 +5,11 @@ import {User, Log} from './internal/models/models.js';
 
 const app = express();
 app.use(express.json())
+
 const port = process.env.PORT || 5000;
-const DB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
+const MONGODB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
+const DB_NAME = "myclimbingjournal"
+const DB_URI = MONGODB_URI + "/" + DB_NAME
 
 // If mongoose failure then catch
 mongoose.connect(DB_URI);
@@ -51,6 +54,11 @@ app.get("/user/:userId/logs", async (req, res) => {
     }
     
     const user = await User.findById(userId);
+
+    if(user === null){
+        res.status(404)
+    }
+
     const logIds = user.logs.map((x)=>x["_id"]);
     
     const logsQuery = {

@@ -8,7 +8,7 @@ import {
     from "reactstrap"
 
 const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
-const LOCAL_BE_SERVER_HOST = 'http://localhost:5000'
+const BE_SERVER_HOST = 'http://localhost:8000'
 
 function daysInMonth(year, month) {
      return new Date(year, month-1, 0).getDate();
@@ -150,7 +150,7 @@ function ClimbingJournalBody() {
     // Get the most recent journal log for the day
     useEffect(() => {
         let endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()+1);
-        fetch(new URL(`/user/${userId}/logs?start_date=${currentDate.toISOString()}&end_date=${endDate.toISOString()}`, LOCAL_BE_SERVER_HOST)).
+        fetch(new URL(`/user/${userId}/logs?start_date=${currentDate.toISOString()}&end_date=${endDate.toISOString()}`, BE_SERVER_HOST)).
         then((response)=>{return response.json()}).
         then((json)=>{setJournalLog(json.logs[0])}).catch(error => {console.log(error)})
         }, [currentDate]
