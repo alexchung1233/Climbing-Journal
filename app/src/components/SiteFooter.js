@@ -10,7 +10,6 @@ export function SiteFooter() {
         <Footer.Link>Alex Chung</Footer.Link>
         <Footer.Link>awchung1357@gmail.com</Footer.Link>
         <Footer.Link href="#">About</Footer.Link>
-        <Footer.Link href="#">Contact</Footer.Link>
      </Footer.LinkGroup>
     </Footer>
   );
