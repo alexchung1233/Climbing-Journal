@@ -1,21 +1,15 @@
 import React, {createContext, useContext, useState, useEffect} from "react"
 import { ClimbingJournalContext } from "./ClimbingJournalContext"
 import JournalLog from "./components/JournalLog"
-import {
-    Label, 
-    Button,
-    Nav
-}
-    from "reactstrap"
 import { SiteFooter } from "./components/SiteFooter"
 import { Navbar, Datepicker } from "flowbite-react"
 
 const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"]
 const BE_SERVER_HOST = 'http://localhost:8000'
 
-function daysInMonth(year, month) {
-     return new Date(year, month-1, 0).getDate();
-}
+// function daysInMonth(year, month) {
+//      return new Date(year, month-1, 0).getDate();
+// }
 
 const ClimbingJournalProvider = (props) => {
 
