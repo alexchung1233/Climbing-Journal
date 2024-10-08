@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx
 
 # Copies from the multistage node image the static files to nginx
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/src/dist /usr/share/nginx/html
 
 # Exposes the port 80
 EXPOSE 80
