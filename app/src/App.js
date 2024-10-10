@@ -157,7 +157,7 @@ function ClimbingJournalBody() {
         <div>
             <Navbar fluid rounded>
                 <Navbar.Brand>
-                <p className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white">My Climbing Journal</p>
+                <h1 className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white" > <a href="/">My Climbing Journal</a></h1>
                 </Navbar.Brand>
             </Navbar>
             <Datepicker inline onChange={(date)=>{setCurrentDate(date)}}/>

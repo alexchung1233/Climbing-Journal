@@ -15,11 +15,13 @@
   "author": "Alex Chung",
   "license": "ISC",
   "dependencies": {
+    "@clerk/clerk-react": "^5.11.0",
     "bootstrap": "^5.3.3",
     "flowbite-react": "^0.10.2",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
     "reactstrap": "^9.2.2",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
