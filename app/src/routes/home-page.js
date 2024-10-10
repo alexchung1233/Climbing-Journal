@@ -15,7 +15,9 @@ return (
         <h2>
           What are you going to send today?.
         </h2>
-          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg"></img>
+        <div>
+          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg" style={{height: "1000px"}}></img>
+        </div>
       </div>
       <div id="detail"></div>
     </>

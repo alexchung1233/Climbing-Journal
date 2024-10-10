@@ -27,7 +27,7 @@ export default function RootLayout() {
         <div>
             <Navbar fluid rounded>
                 <Navbar.Brand>
-                <h1 className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white" > <a href="/">My Climbing Journal</a></h1>
+                <p className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white" > <a href="/">My Climbing Journal</a></p>
                 </Navbar.Brand>
             </Navbar>
           <SignedIn>
