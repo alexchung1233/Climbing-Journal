@@ -1659,6 +1659,10 @@ input[type="range"]::-ms-fill-lower{
   max-height: 90dvh;
 }
 
+.min-h-screen{
+  min-height: 100vh;
+}
+
 .w-1{
   width: 0.25rem;
 }
@@ -4507,6 +4511,10 @@ hr {
   border: none;
   height: 3px;
   background-color: #fff;
+}
+
+img {
+  padding: 10px;
 }
 
 button {

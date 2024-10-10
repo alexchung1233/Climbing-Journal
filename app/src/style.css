@@ -61,6 +61,10 @@ hr {
     background-color: #fff;
 }
 
+img {
+    padding: 10px;
+}
+
 button {
     font-size: 1.1em;
     background-color: #fff;
