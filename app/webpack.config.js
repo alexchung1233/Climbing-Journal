@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -39,7 +40,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html')
-    })
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
+    }),
+    new webpack.ProvidePlugin({
+      "React": "react",
+   }),
   ],
   watchOptions: {
     ignored: ['**/files/**/*.js', '**/node_modules'],

@@ -56,7 +56,7 @@ app.get("/user/:userId/logs", async (req, res) => {
     const user = await User.findById(userId);
 
     if(user === null){
-        res.status(404)
+        return res.status(404).send("Unable to find user associated with id")
     }
 
     const logIds = user.logs.map((x)=>x["_id"]);

@@ -34,7 +34,7 @@ const userSchema  = new Schema(
             _id: ObjectId,
             createdAt: Number
         }],
-        password: String,
+        auth_id: String
     }
 )
 
