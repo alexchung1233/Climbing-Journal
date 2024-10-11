@@ -6,9 +6,6 @@ import { SignOutButton } from '../components/SignOutButton'
 
 const PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY || 'pk_test_aHVtYW5lLWNhdGZpc2gtMTcuY2xlcmsuYWNjb3VudHMuZGV2JA'
 
-
-
-console.log(process.env.REACT_APP_CLERK_PUBLISHABLE_KEY)
 if (!PUBLISHABLE_KEY) {
   throw new Error('Missing Publishable Key')
 }

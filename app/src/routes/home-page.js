@@ -5,18 +5,12 @@ import React from 'react'
 export default function HomePage() {
 return (
     <>
-      <div id="sidebar">
-        <nav>
-          <ul>
-          </ul>
-        </nav>
-      </div>
-      <div class="flex flex-row min-h-screen justify-center items-center">
+      <div class="flex flex-row min-h-screen justify-center items-center" style={{height: "100vh"}}>
         <h2>
           What are you going to send today?
         </h2>
-        <div>
-          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg" style={{height: "1000px"}}></img>
+        <div style={{height: "100vh"}}>
+          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg" style={{height:"675px"}}></img>
         </div>
       </div>
       <div id="detail"></div>
