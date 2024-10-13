@@ -5,15 +5,13 @@ import {User, Log} from './internal/models/models.js';
 import { Webhook } from 'svix';
 import bodyParser from 'body-parser';
 
-const app = express(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-});
+const app = express();
 app.use(bodyParser.json())
+const corsOptions = {
+    credentials: true,
+    origin: ['http://localhost:8000', 'http://localhost:80'] // Whitelist the domains you want to allow
+};
+app.use(cors(corsOptions));
 
 const port = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
@@ -27,10 +25,6 @@ mongoose.connect(DB_URI);
  * Updates logs by userId
  */
 app.patch("/user/:userId/log/:logId", async(req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "PATCH,GET,POST,DELETE")
-    res.setHeader('Content-Type', 'application/json');
     console.log("Hitting PATCH for log")
     var userId = req.params["userId"];
     var logId = req.params["logId"];
@@ -81,17 +75,11 @@ app.get("/user/:userId/logs", async (req, res) => {
     ).sort({createdAt: 1})
     console.log(logs)
 
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader('Content-Type', 'application/json');
     res.send({"logs": logs})
 });
 
 
 app.get("/user/auth_user/:authId", async(req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin");
-    res.header("Access-Control-Allow-Methods", "PATCH,GET,POST,DELETE")
     var authId = req.params["authId"];
     console.log("Hitting GET endpoint for user %s");
     console.log(authId);
@@ -140,11 +128,6 @@ app.post("/user/:userId/log", async (req, res) => {
     user.logs.push({_id: log._id, createdAt: createdAt})
     user.save()
     console.log("User updated %s", user)
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader('Content-Type', 'application/json');
-
-
     console.log("New Log created %s", log)
     res.status(201).send(log)
 });
