@@ -20,13 +20,17 @@ mongoose.connect(DB_URI);
  * Updates logs by userId
  */
 app.patch("/user/:userId/log/:logId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "PATCH,GET,POST,DELETE")
+    res.setHeader('Content-Type', 'application/json');
     console.log("Hitting PATCH for log")
     var userId = req.params["userId"];
     var logId = req.params["logId"];
     // Verify that the logId is contained in the userID
 
     const log = await Log.findByIdAndUpdate(logId, req.body);
-    res.setHeader('Content-Type', 'application/json');
+
     res.status(200).send(log)
 })
 
@@ -69,7 +73,10 @@ app.get("/user/:userId/logs", async (req, res) => {
             logsQuery
     ).sort({createdAt: 1})
     console.log(logs)
-    res.setHeader('Content-Type', 'application/json');
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    es.setHeader('Content-Type', 'application/json');
     res.send({"logs": logs})
 });
 
@@ -86,6 +93,8 @@ app.get("/user/auth_user/:authId", async(req, res) => {
     if(!user){
         return res.status(404).send("Could not find user");
     }
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader('Content-Type', 'application/json');
     res.status(200).send(user);
 
@@ -205,6 +214,8 @@ app.post("/webhooks", async(req, res) =>{
         status: 400,
       })
     }
+    console.log(headers)
+    console.log(typeof(payload))
 
     // Create a new Svix instance with your secret.
     const wh = new Webhook(WEBHOOK_SECRET)
