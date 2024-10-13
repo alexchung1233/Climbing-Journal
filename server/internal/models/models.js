@@ -27,14 +27,16 @@ const climbSchema = new Schema(
 
 const userSchema  = new Schema(
     {
-        name: String,
+        firstName: String,
+        lastName: String,
         username: String,
         email: String,
         logs: [{
             _id: ObjectId,
             createdAt: Number
         }],
-        auth_id: String
+        authId: String,
+        createdAt: Date
     }
 )
 

@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -46,7 +47,8 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       "React": "react",
-   }),
+    }),
+    new Dotenv()
   ],
   watchOptions: {
     ignored: ['**/files/**/*.js', '**/node_modules'],

@@ -10,7 +10,7 @@ return (
           What are you going to send today?
         </h2>
         <div style={{height: "100vh"}}>
-          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg" style={{height:"675px"}}></img>
+          <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/man-rock-climbing-indoors-rear-view-joe-mcbride.jpg" style={{height:"800px"}}></img>
         </div>
       </div>
       <div id="detail"></div>

@@ -10,9 +10,10 @@ import {
 } from 'reactstrap'
 import { Textarea } from 'flowbite-react';
 import PropTypes from 'prop-types'; // ES6
-const BE_SERVER_HOST = 'http://localhost:8000'
+const BE_SERVER_HOST = process.env.SERVER_HOST
 
 const JournalLog= ({journalLog, userId, currentDate}) => {
+    console.log(userId);
     const [notes, setNotes] = useState('')
     const [logId, setLogId] = useState('')
 
