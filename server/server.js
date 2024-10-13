@@ -76,14 +76,10 @@ app.get("/user/:userId/logs", async (req, res) => {
 
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    es.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type', 'application/json');
     res.send({"logs": logs})
 });
 
-
-app.get("/check", async(req, res) => {
-    res.send("hello world");
-})
 
 app.get("/user/auth_user/:authId", async(req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
