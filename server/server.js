@@ -7,11 +7,14 @@ import bodyParser from 'body-parser';
 
 const app = express();
 app.use(bodyParser.json())
-const corsOptions = {
-    credentials: true,
-    origin: ['http://localhost:8000', 'http://localhost:80'] // Whitelist the domains you want to allow
-};
-app.use(cors(corsOptions));
+app.use(cors({
+    allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
+    exposedHeaders: ["authorization"], // you can change the headers
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false
+    }
+));
 
 const port = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URL || "mongodb://localhost:27017"
@@ -86,7 +89,7 @@ app.get("/user/auth_user/:authId", async(req, res) => {
     const user = await User.findOne({authId: authId});
     if(!user){
         return res.status(404).send("Could not find user");
-    }A
+    }
     res.status(200).send(user);
 
 });
@@ -260,8 +263,5 @@ async function handle_user_created_webhook(payload){
     });
     console.log("User successfully created on db %s", user);
 }
-
-
-app.use(cors());
 console.log("Connecting to Mongodb: %s", DB_URI)
 app.listen(port, ()=>{console.log('Listening on port %d', port)});
