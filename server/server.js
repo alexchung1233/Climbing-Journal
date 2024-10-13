@@ -137,6 +137,9 @@ app.post("/user/:userId/log", async (req, res) => {
     user.logs.push({_id: log._id, createdAt: createdAt})
     user.save()
     console.log("User updated %s", user)
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Content-Type', 'application/json');
 
 
     console.log("New Log created %s", log)
