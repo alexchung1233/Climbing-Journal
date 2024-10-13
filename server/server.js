@@ -86,16 +86,17 @@ app.get("/check", async(req, res) => {
 })
 
 app.get("/user/auth_user/:authId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "PATCH,GET,POST,DELETE")
+    res.setHeader('Content-Type', 'application/json');
     var authId = req.params["authId"];
     console.log("Hitting GET endpoint for user %s");
     console.log(authId);
     const user = await User.findOne({authId: authId});
     if(!user){
         return res.status(404).send("Could not find user");
-    }
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader('Content-Type', 'application/json');
+    }A
     res.status(200).send(user);
 
 });
