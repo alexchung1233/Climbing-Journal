@@ -5,7 +5,7 @@ import React from 'react'
 export default function HomePage() {
 return (
     <>
-      <div class="flex flex-row min-h-screen justify-center items-center" style={{height: "100vh"}}>
+      <div className="flex flex-row min-h-screen justify-center items-center" style={{height: "100vh"}}>
         <h2>
           What are you going to send today?
         </h2>
