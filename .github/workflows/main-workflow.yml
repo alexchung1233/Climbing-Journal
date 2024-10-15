@@ -21,10 +21,10 @@ jobs:
           SERVER_HOST: ${{ vars.SERVER_HOST }}
         run: |
           touch app/.env && touch server/.env &&
-          echo "CLERK_PUBLISHABLE_KEY: $CLERK_PUBLISHABLE_KEY" >> app/.env &&
-          echo "SERVER_HOST: $SERVER_HOST" >> app/.env &&
-          echo "WEBHOOK_SECRET: $WEBHOOK_SECRET" >> server/.env &&
-          echo "FE_HOST: $FE_HOST" >> server/.env
+          echo "CLERK_PUBLISHABLE_KEY=$CLERK_PUBLISHABLE_KEY" >> app/.env &&
+          echo "SERVER_HOST=$SERVER_HOST" >> app/.env &&
+          echo "WEBHOOK_SECRET=$WEBHOOK_SECRET" >> server/.env &&
+          echo "FE_HOST=$FE_HOST" >> server/.env
       - name: Deploy frontend, backend, and db
         run: ./deployment-script.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
