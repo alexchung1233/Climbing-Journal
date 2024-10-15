@@ -21,6 +21,6 @@ FROM nginx
 
 # Copies from the multistage node image the static files to nginx
 COPY --from=build /usr/src/app/src/dist /usr/share/nginx/html
-
+COPY nginx.conf /etc/nginx/nginx.conf
 # Exposes the port 80
 EXPOSE 80
