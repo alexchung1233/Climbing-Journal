@@ -2,8 +2,9 @@ name: Build and deploy workflow
 run-name: Build and deploying Climbing Journal
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Deployment:
     runs-on: self-hosted
+    environment: production
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -12,6 +13,18 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - run: chmod +x deployment-script.sh
+      - shell: bash
+        env:
+          CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          FE_HOST: ${{ env.FE_HOST }}
+          SERVER_HOST: ${{ env.SERVER_HOST }}
+        run: |
+          echo "$CLERK_PUBLISHABLE_KEY" >> /app/.env &&
+          echo "$SERVER_HOST" >> /app.env &&
+          echo "$WEBHOOK_SECRET" >> /server/.env
+          echo "$FE_HOST" >> /server/.env
+
       - name: Deploy frontend, backend, and db
         run: ./deployment-script.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -6,8 +6,6 @@ export default function JournalLayout() {
   const { userId, isLoaded } = useAuth()
   const navigate = useNavigate()
 
-  console.log('User logged in: ', userId)
-
   useEffect(() => {
     if (isLoaded && !userId) {
       navigate('/sign-in')

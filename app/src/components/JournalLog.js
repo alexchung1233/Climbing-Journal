@@ -13,7 +13,6 @@ import PropTypes from 'prop-types'; // ES6
 const BE_SERVER_HOST = process.env.SERVER_HOST
 
 const JournalLog= ({journalLog, userId, currentDate}) => {
-    console.log(userId);
     const [notes, setNotes] = useState('')
     const [logId, setLogId] = useState('')
 

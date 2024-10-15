@@ -70,7 +70,7 @@ app.get("/user/:userId/logs", async (req, res) => {
     const logsQuery = {
         $and: [
             {_id: {$in: logIds}},
-            {createdAt: {$gte: startDate, $lte: endDate}}
+            {createdAt: {$gte: startDate, $lt: endDate}}
             ]
         }
     const logs = await Log.find(

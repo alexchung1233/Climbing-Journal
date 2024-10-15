@@ -55,8 +55,10 @@ function ClimbingJournalBody() {
     
     return (
         <div>
-            <Datepicker inline onChange={(date)=>{setCurrentDate(date)}}/>
-            <h1>{Datepicker.value}</h1>
+            <Datepicker inline onChange={(date)=>{
+                date.setHours(0,0,0,0);
+                setCurrentDate(date);
+                }}/>
             <JournalLog journalLog={journalLogs} userId={apiUserId} currentDate={currentDate}/>
         </div>
     );
