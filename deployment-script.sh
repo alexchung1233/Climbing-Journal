@@ -1,5 +1,3 @@
-git pull
-
 echo Building server image
 docker-compose build
 
