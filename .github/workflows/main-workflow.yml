@@ -25,6 +25,7 @@ jobs:
           echo "SERVER_HOST: $SERVER_HOST" >> app/.env &&
           echo "WEBHOOK_SECRET: $WEBHOOK_SECRET" >> server/.env &&
           echo "FE_HOST: $FE_HOST" >> server/.env
+      - run: cat app/.env
       - name: Deploy frontend, backend, and db
         run: ./deployment-script.sh
       - run: echo "🍏 This job's status is ${{ job.status }}."
