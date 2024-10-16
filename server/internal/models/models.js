@@ -5,13 +5,9 @@ import  { Schema, model } from "mongoose"
 const logSchema = new Schema(
     {
         userId: ObjectId,
-        climbs: [{
-            _id: ObjectId,
-        }],
-
         notes: String,
         views: Number,
-        highestGrade: String,
+        climbs: Array,
         createdAt: Date,
         updatedAt: Date,
     }

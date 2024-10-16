@@ -72,6 +72,10 @@ hr {
     background-color: #fff;
 }
 
+input {
+    color: #000
+}
+
 img {
     padding: 10px;
 }

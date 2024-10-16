@@ -38,7 +38,7 @@ function ClimbingJournalBody() {
         then((json)=>{setApiUserId(json._id)}).catch(error => {console.log(error)})
     }
     let {currentDate, setCurrentDate} = useContext(ClimbingJournalContext);
-    const [journalLogs, setJournalLog] = useState({});
+    const [journalLog, setJournalLog] = useState({});
     console.log(`Current date ${currentDate.toISOString()}`)
 
     // Get the most recent journal log for the day
@@ -59,7 +59,7 @@ function ClimbingJournalBody() {
                 date.setHours(0,0,0,0);
                 setCurrentDate(date);
                 }}/>
-            <JournalLog journalLog={journalLogs} userId={apiUserId} currentDate={currentDate}/>
+            <JournalLog journalLog={journalLog} userId={apiUserId} currentDate={currentDate}/>
         </div>
     );
 }

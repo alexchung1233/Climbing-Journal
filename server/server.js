@@ -102,6 +102,7 @@ app.post("/user/:userId/log", async (req, res) => {
     console.log("Creating new log for user %s");
     var userId = req.params.userId || null;
     var notes = req.body.notes || null;
+    var climbs = req.body.climbs || [];
     var createdAt = new Date();
     var updatedAt = new Date();
     if(req.body.createdAt) {
@@ -124,12 +125,13 @@ app.post("/user/:userId/log", async (req, res) => {
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "views": views,
-        "highestGrade": highestGrade
+        "climbs": climbs
     });
 
     const user = await User.findById(userId)
     user.logs.push({_id: log._id, createdAt: createdAt})
     user.save()
+    
     console.log("User updated %s", user)
     console.log("New Log created %s", log)
     res.status(201).send(log)
