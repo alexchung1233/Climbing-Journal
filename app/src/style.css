@@ -77,7 +77,7 @@ img {
 }
 
 a {
-    font-size: 1.15em;
+    font-size: 1.2em;
 }
 
 button {
@@ -127,4 +127,9 @@ ul li {
     padding: 20px 0;
     background-color: #000;
     color: #fff;
+}
+
+.topDiv {
+    margin-left: 1.4em;
+    margin-right: 1.4em;
 }

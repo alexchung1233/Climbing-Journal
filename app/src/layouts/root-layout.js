@@ -20,27 +20,29 @@ export default function RootLayout() {
       routerReplace={(to) => navigate(to, { replace: true })}
       publishableKey={PUBLISHABLE_KEY}
     >
-      <header className="header">
-        <div>
-            <Navbar fluid rounded>
-                <Navbar.Brand>
-                <p className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white" > <a href="/">My Climbing Journal</a></p>
-                </Navbar.Brand>
-            </Navbar>
-          <SignedIn>
-            <Link to="/journal">My Journal</Link>
-            <SignOutButton/>
-          </SignedIn>
-          <SignedOut>
-            <Link to="/sign-in">Sign In</Link>
-            <Link to="/sign-up">Sign Up</Link>
-          </SignedOut>
-        </div>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-      <SiteFooter/>
+      <div className="topDiv">
+        <header className="header">
+          <div className="rootDiv">
+              <Navbar fluid rounded>
+                  <Navbar.Brand>
+                  <p className="text-2xl self-center whitespace-nowrap font-semibold dark:text-white" > <a href="/">My Climbing Journal</a></p>
+                  </Navbar.Brand>
+              </Navbar>
+            <SignedIn>
+              <Link to="/journal">My Journal</Link>
+              <SignOutButton/>
+            </SignedIn>
+            <SignedOut>
+              <Link to="/sign-in">Sign In</Link>
+              <Link to="/sign-up">Sign Up</Link>
+            </SignedOut>
+          </div>
+        </header>
+        <main>
+          <Outlet />
+        </main>
+        <SiteFooter/>
+      </div>
     </ClerkProvider>
   )
 };
