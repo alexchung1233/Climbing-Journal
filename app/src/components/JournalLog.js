@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Flowbite, Textarea } from 'flowbite-react';
 import PropTypes from 'prop-types'; // ES6
 import {Formik, FieldArray, Field} from 'formik';
-import ClimbList from './ClimbList'
 const SERVER_HOST = process.env.SERVER_HOST
 
 
