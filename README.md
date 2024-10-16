@@ -2,6 +2,8 @@
 
 https://myclimbingjournal.xyz
 
+A training journal for climbers - boulderers, trad climbers, and sport climbers alike. Track your daily session and your top climb. Currently in active development. 
+
 Project implemented in order to practice React, Babel, Webpack, and JS. 
 Backend using Express and NodeJS with MonogoDb.
 Frontend using React, Reactstrap, Webpack, Babel
