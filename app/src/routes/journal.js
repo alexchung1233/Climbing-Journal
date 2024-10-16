@@ -54,7 +54,7 @@ function ClimbingJournalBody() {
 
     
     return (
-        <div>
+        <div className="journalBodyDiv">
             <Datepicker className ="text-lg" inline onChange={(date)=>{
                 date.setHours(0,0,0,0);
                 setCurrentDate(date);

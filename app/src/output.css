@@ -4530,7 +4530,7 @@ img {
 }
 
 a {
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 button {
@@ -4584,8 +4584,8 @@ ul li {
 }
 
 .topDiv {
-  margin-left: 1.4em;
-  margin-right: 1.4em;
+  margin-left: 2.5em;
+  margin-right: 2.5em;
 }
 
 .after\:absolute::after{
