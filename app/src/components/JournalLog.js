@@ -32,7 +32,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
             <Form>
                 <Row>
                     <Col>
-                        <Button onClick={(e) => {
+                        <Button className="saveButton" onClick={(e) => {
                             if(journalLog){
                                 fetch(
                                     new URL(`/user/${userId}/log/${logId}`, SERVER_HOST),

@@ -4588,6 +4588,10 @@ ul li {
   margin-right: 2.5em;
 }
 
+.saveButton{
+  margin-bottom: 1.2em;
+}
+
 .after\:absolute::after{
   content: var(--tw-content);
   position: absolute;
