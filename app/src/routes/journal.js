@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/clerk-react"
 import { Datepicker } from "flowbite-react"
 import { ClimbingJournalContext } from "../ClimbingJournalContext"
 
-const BE_SERVER_HOST = process.env.SERVER_HOST
+const SERVER_HOST = process.env.SERVER_HOST
 const ClimbingJournalProvider = (props) => {
 
     var defaultDate = new Date()
@@ -23,7 +23,7 @@ const ClimbingJournalProvider = (props) => {
 // Parent component containing search bar and product table
 function ClimbingJournalBody() {
 
-    const { userId, isLoaded } = useAuth()
+    const { userId, isLoaded, getToken } = useAuth()
     let {apiUserId, setApiUserId} = useContext(ClimbingJournalContext);
     useEffect(() => {
         if (isLoaded && !userId) {
@@ -33,7 +33,7 @@ function ClimbingJournalBody() {
 
     if (!isLoaded) return 'Loading...'
     if (userId) {
-       fetch(new URL(`/user/auth_user/${userId}`, BE_SERVER_HOST)).
+       fetch(new URL(`/user/auth_user/${userId}`, SERVER_HOST)).
         then((response)=>{return response.json()}).
         then((json)=>{setApiUserId(json._id)}).catch(error => {console.log(error)})
     }
@@ -45,7 +45,7 @@ function ClimbingJournalBody() {
     useEffect(() => {
         if(apiUserId){
             let endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()+1);
-            fetch(new URL(`/user/${apiUserId}/logs?start_date=${currentDate.toISOString()}&end_date=${endDate.toISOString()}`, BE_SERVER_HOST)).
+            fetch(new URL(`/user/${apiUserId}/logs?start_date=${currentDate.toISOString()}&end_date=${endDate.toISOString()}`, SERVER_HOST)).
             then((response)=>{return response.json()}).
             then((json)=>{setJournalLog(json.logs[0])}).catch(error => {console.log(error)})
             }
@@ -55,7 +55,7 @@ function ClimbingJournalBody() {
     
     return (
         <div>
-            <Datepicker inline onChange={(date)=>{
+            <Datepicker className ="text-lg" inline onChange={(date)=>{
                 date.setHours(0,0,0,0);
                 setCurrentDate(date);
                 }}/>

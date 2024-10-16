@@ -3,14 +3,13 @@ import {
     Form, 
     FormGroup, 
     Label, 
-    Input,
     Button,
     Row,
     Col,
 } from 'reactstrap'
-import { Textarea } from 'flowbite-react';
+import { Flowbite, Textarea } from 'flowbite-react';
 import PropTypes from 'prop-types'; // ES6
-const BE_SERVER_HOST = process.env.SERVER_HOST
+const SERVER_HOST = process.env.SERVER_HOST
 
 const JournalLog= ({journalLog, userId, currentDate}) => {
     const [notes, setNotes] = useState('')
@@ -36,7 +35,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                         <Button onClick={(e) => {
                             if(journalLog){
                                 fetch(
-                                    new URL(`/user/${userId}/log/${logId}`, BE_SERVER_HOST),
+                                    new URL(`/user/${userId}/log/${logId}`, SERVER_HOST),
                                 {
                                     method: "PATCH",
                                     body: JSON.stringify({"notes": notes}),
@@ -50,7 +49,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                             }
                             else{
                                 fetch(
-                                    new URL(`/user/${userId}/log`, BE_SERVER_HOST),
+                                    new URL(`/user/${userId}/log`, SERVER_HOST),
                                 {
                                     method: "POST",
                                     body: JSON.stringify({"notes": notes, "createdAt": currentDate.toISOString()}),
@@ -66,23 +65,23 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Label>Session Notes</Label>
-                    <Textarea type="textarea" value={notes} required rows={6} onChange={(e)=>{
+                    <label>Session Notes</label>
+                    <textarea type="textarea" value={notes} required rows={6} onChange={(e)=>{
                         setNotes(e.currentTarget.value);
-                    }}></Textarea>
+                    }}></textarea>
                 </Row>
                 <Row>
                     <Col md={6}>
                         <FormGroup>
-                            <Label>Highest grade</Label>
-                            <Textarea placeholder="ex. V4"></Textarea>
+                            <label>Highest grade</label>
+                            <textarea placeholder="ex. V4"></textarea>
                         </FormGroup>
 
                     </Col>
                     <Col md={6}>
                         <FormGroup>
-                            <Label>Grades sent</Label>
-                            <Textarea placeholder="ex. V4,V5"></Textarea>
+                            <label>Grades sent</label>
+                            <textarea placeholder="ex. V4,V5"></textarea>
                         </FormGroup>
                     </Col>
                 </Row>
