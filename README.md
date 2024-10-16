@@ -6,7 +6,8 @@ A training journal for climbers - boulderers, trad climbers, and sport climbers 
 
 
 
-## Technologies Used
+
+### Technologies Used
 
 Project implemented in order to practice React, Babel, Webpack, and JS. 
 Backend using Express and NodeJS with MonogoDb.
