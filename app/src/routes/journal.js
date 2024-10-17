@@ -2,6 +2,7 @@ import React, {useContext, useState, useEffect} from "react"
 import JournalLog from "../components/JournalLog"
 import { useAuth } from "@clerk/clerk-react"
 import { Datepicker } from "flowbite-react"
+import { useNavigate } from "react-router-dom"
 import { ClimbingJournalContext } from "../ClimbingJournalContext"
 
 const SERVER_HOST = process.env.SERVER_HOST
@@ -22,6 +23,7 @@ const ClimbingJournalProvider = (props) => {
 
 // Parent component containing search bar and product table
 function ClimbingJournalBody() {
+    const navigate = useNavigate();
 
     const { userId, isLoaded, getToken } = useAuth()
     let {apiUserId, setApiUserId} = useContext(ClimbingJournalContext);
@@ -51,17 +53,21 @@ function ClimbingJournalBody() {
             }
         }, [currentDate, apiUserId]
     )
-
     
-    return (
-        <div className="journalBodyDiv">
-            <Datepicker className ="text-lg" inline onChange={(date)=>{
-                date.setHours(0,0,0,0);
-                setCurrentDate(date);
-                }}/>
-            <JournalLog journalLog={journalLog} userId={apiUserId} currentDate={currentDate}/>
-        </div>
-    );
+    if(apiUserId){
+        return (
+            <div className="journalBodyDiv">
+                <Datepicker className ="text-lg" inline onChange={(date)=>{
+                    date.setHours(0,0,0,0);
+                    setCurrentDate(date);
+                    }}/>
+                <JournalLog journalLog={journalLog} userId={apiUserId} currentDate={currentDate}/>
+            </div>
+        );
+    }   
+    else{
+        navigate("/");
+    }
 }
 
 export {ClimbingJournalContext}
