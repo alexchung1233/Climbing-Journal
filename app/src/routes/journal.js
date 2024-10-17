@@ -35,8 +35,8 @@ function ClimbingJournalBody() {
     if (userId) {
        fetch(new URL(`/user/auth_user/${userId}`, SERVER_HOST)).
         then((response)=>{return response.json()}).
-        then((json)=>{setApiUserId(json._id)}).catch(error => {console.log(error)})
-    }
+        then((json)=>{setApiUserId(json._id)}).catch(error => {navigate('/')})
+    }    
     let {currentDate, setCurrentDate} = useContext(ClimbingJournalContext);
     const [journalLog, setJournalLog] = useState({});
     console.log(`Current date ${currentDate.toISOString()}`)
