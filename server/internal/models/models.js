@@ -7,7 +7,7 @@ const logSchema = new Schema(
         userId: ObjectId,
         notes: String,
         views: Number,
-        climbs: Array,
+        climbs: [{_id: ObjectId}],
         createdAt: Date,
         updatedAt: Date,
     }
@@ -15,8 +15,10 @@ const logSchema = new Schema(
 
 const climbSchema = new Schema(
     {
+        logId: ObjectId,
         grade: String,
         attempts: Number,
+        description: String,
         name: String,
     }
 )

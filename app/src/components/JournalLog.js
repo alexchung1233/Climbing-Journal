@@ -49,7 +49,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
     return (
         <div>
           <Formik
-            initialValues={{ notes: journalLog?.notes || '', climbs: journalLog?.climbs || []}}
+            initialValues={{ notes: journalLog?.notes || '', climbs: journalLog?.climbs || [{'climb': '', 'description': '', attempts: 0}]}}
             enableReinitialize
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
@@ -90,9 +90,15 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                 render={arrayHelpers => (
                 <div>
                 {values.climbs && values.climbs.length > 0 ? (
-                  values.climbs.map((climb, index) => (
+                  <div>
+                  <label style={{"margin-right": "9em"}}>Grade</label>
+                  <label style={{"margin-right": "9em"}}>Attempts</label>
+                  <label>Description</label>
+                  {values.climbs.map((climb, index) => (
                     <div key={index}>
-                      <Field name={`climbs.${index}`}/>
+                      <Field name={`climbs.${index}.grade`}/>
+                      <Field name={`climbs.${index}.attempts`}/>
+                      <Field name={`climbs.${index}.description`}/>
                       <button
                         type="button"
                         onClick={() => arrayHelpers.remove(index)} // remove a climb from the list
@@ -101,12 +107,13 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                       </button>
                       <button
                         type="button"
-                        onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                        onClick={() => arrayHelpers.insert(index, {"grade": "", "description": "", "attempts": ""})} // insert an empty string at a position
                       >
                         +
                       </button>
                     </div>
-                  ))
+                  ))}
+                  </div>
                 ) : (
                   <button type="button" onClick={() => arrayHelpers.push("")}>
                     Add a Climb(ex. V5)

@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import {User, Log} from './internal/models/models.js';
+import {User, Log, Climb} from './internal/models/models.js';
 import { Webhook } from 'svix';
 import bodyParser from 'body-parser';
 
@@ -31,9 +31,24 @@ app.patch("/user/:userId/log/:logId", async(req, res) => {
     console.log("Hitting PATCH for log")
     var userId = req.params["userId"];
     var logId = req.params["logId"];
-    // Verify that the logId is contained in the userID
 
-    const log = await Log.findByIdAndUpdate(logId, req.body);
+    // Update the climbs in a log
+    const climbs = req.body.climbs
+    var log = await Log.findById(logId);
+    for (const climb of climbs){
+        if(climb._id){
+            await Climb.findByIdAndUpdate(climb?._id, climb)
+        }
+        else{
+            const new_climb = await Climb.create(climb);
+            log.climbs.push(new_climb._id)
+            log.save()
+        }
+    }
+    // Verify that the logId is contained in the userID
+    delete req.body.climbs
+
+    log = await Log.findByIdAndUpdate(logId, req.body);
 
     res.status(200).send(log)
 })
@@ -73,12 +88,28 @@ app.get("/user/:userId/logs", async (req, res) => {
             {createdAt: {$gte: startDate, $lt: endDate}}
             ]
         }
+    
     const logs = await Log.find(
-            logsQuery
-    ).sort({createdAt: 1})
-    console.log(logs)
+        logsQuery
+        ).sort({createdAt: 1}
+    )
 
-    res.send({"logs": logs})
+    const logs_json = JSON.parse(JSON.stringify(logs))
+
+    for (var log of logs_json){
+        var climbs = log.climbs
+        try{
+            climbs = await Climb.find({_id: {$in: log.climbs}}).sort({"attempts": -1})
+        }
+        catch(error){
+            console.log(error)
+            continue
+        }
+        log.climbs = climbs
+    }
+
+
+    res.send({"logs": logs_json})
 });
 
 
@@ -100,7 +131,7 @@ app.get("/user/auth_user/:authId", async(req, res) => {
 
 app.post("/user/:userId/log", async (req, res) => {
     console.log("Creating new log for user %s");
-    var userId = req.params.userId || null;
+    const userId = req.params.userId || null;
     var notes = req.body.notes || null;
     var climbs = req.body.climbs || [];
     var createdAt = new Date();
@@ -112,7 +143,7 @@ app.post("/user/:userId/log", async (req, res) => {
         updatedAt = new Date(req.body.updatedAt);
     }
     var views = 0
-    var highestGrade = req.body.highestGrade || null
+
 
     if(!userId){
         console.error("Must include userId")
@@ -125,8 +156,22 @@ app.post("/user/:userId/log", async (req, res) => {
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "views": views,
-        "climbs": climbs
+        "climbs": []
     });
+
+
+    // Create each climb
+    for (const climb of climbs){
+        const climbObj = await Climb.create({
+            "logId": log._id,
+            "grade": climb?.grade,
+            "description": climb?.description,
+            "attempts": climb?.attempts,
+            "name": climb?.name
+        })
+        log.climbs.push({_id: climbObj._id})
+        log.save()
+    }
 
     const user = await User.findById(userId)
     user.logs.push({_id: log._id, createdAt: createdAt})
