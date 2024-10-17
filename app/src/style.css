@@ -141,3 +141,12 @@ ul li {
 .saveButton{
     margin-bottom: 1.2em;
 }
+
+.climb_description{
+    width: 50em;
+    margin-right: 2.5em
+}
+
+.climb_attempts{
+    width: 5em;
+}

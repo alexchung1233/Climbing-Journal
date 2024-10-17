@@ -91,14 +91,14 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                 <div>
                 {values.climbs && values.climbs.length > 0 ? (
                   <div>
-                  <label style={{"margin-right": "9em"}}>Grade</label>
+                  <label style={{"margin-right": "7.5em"}}>Grade</label>
                   <label style={{"margin-right": "9em"}}>Attempts</label>
                   <label>Description</label>
                   {values.climbs.map((climb, index) => (
                     <div key={index}>
                       <Field name={`climbs.${index}.grade`}/>
-                      <Field name={`climbs.${index}.attempts`}/>
-                      <Field name={`climbs.${index}.description`}/>
+                      <Field name={`climbs.${index}.attempts`} className="climb_attempts"/>
+                      <Field name={`climbs.${index}.description`} className="climb_description"/>
                       <button
                         type="button"
                         onClick={() => arrayHelpers.remove(index)} // remove a climb from the list
