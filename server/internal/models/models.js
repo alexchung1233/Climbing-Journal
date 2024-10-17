@@ -7,21 +7,12 @@ const logSchema = new Schema(
         userId: ObjectId,
         notes: String,
         views: Number,
-        climbs: [{_id: ObjectId}],
+        climbs: Array,
         createdAt: Date,
         updatedAt: Date,
     }
 )
 
-const climbSchema = new Schema(
-    {
-        logId: ObjectId,
-        grade: String,
-        attempts: Number,
-        description: String,
-        name: String,
-    }
-)
 
 const userSchema  = new Schema(
     {
@@ -39,7 +30,6 @@ const userSchema  = new Schema(
 )
 
 const Log = model('Log', logSchema);
-const Climb = model('Climb', climbSchema);
 const User = model('User', userSchema);
 
-export {Log, Climb, User};
+export {Log, User};
