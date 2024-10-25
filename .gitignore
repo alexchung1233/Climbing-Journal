@@ -1,3 +1,4 @@
 .env
 .env.local
-
+app/npm_modules
+server/node_modules

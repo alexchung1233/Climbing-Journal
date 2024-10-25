@@ -49,7 +49,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
     return (
         <div>
           <Formik
-            initialValues={{ notes: journalLog?.notes || '', climbs: journalLog?.climbs || [{'climb': '', 'description': '', attempts: 0}]}}
+            initialValues={{ notes: journalLog?.notes || '', climbs: journalLog?.climbs || [{'grade': '', 'description': '', 'attempts': 0}]}}
             enableReinitialize
             onSubmit={(values, { setSubmitting }) => {
               console.log(values);
