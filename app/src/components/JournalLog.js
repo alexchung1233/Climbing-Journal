@@ -84,18 +84,20 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                   value={values.notes}
                 />
                     {errors.notes && touched.notes && errors.notes}
-              <div className={"climb"}>
-                <label>Climbs Sent</label>
+              <label>Climbs Sent</label>
+              <div className={"climbsDiv"}>
                 <FieldArray name="climbs"
                     render={arrayHelpers => (
                 <div>
                 {values.climbs && values.climbs.length > 0 ? (
                   <div>
-                  <label>Grade</label>
-                  <label>Attempts</label>
-                  <label>Description</label>
+                  <div className={"climbFieldLabels"}>
+                    <label>Grade</label>
+                    <label>Attempts</label>
+                    <label>Description</label>
+                  </div>
                   {values.climbs.map((climb, index) => (
-                    <div key={index}>
+                    <div key={index} className={"climbRow"}>
                       <Field name={`climbs.${index}.grade`}/>
                       <Field name={`climbs.${index}.attempts`} className="climb_attempts"/>
                       <Field name={`climbs.${index}.description`} className="climb_description"/>
@@ -121,7 +123,7 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                 )}
                 </div>
                  )}
-                />
+              />
              </div>
              </form>
             )} 
