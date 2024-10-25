@@ -142,6 +142,13 @@ ul li {
     margin-bottom: 1.2em;
 }
 
+.climb{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
 .climb_description{
     width: 50em;
     margin-right: 2.5em

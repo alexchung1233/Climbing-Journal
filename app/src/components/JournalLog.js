@@ -83,16 +83,16 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                   onBlur={handleBlur}
                   value={values.notes}
                 />
-                {errors.notes && touched.notes && errors.notes}
-                <div>
-              <label>Climbs Sent</label>
-              <FieldArray name="climbs"
-                render={arrayHelpers => (
+                    {errors.notes && touched.notes && errors.notes}
+              <div className={"climb"}>
+                <label>Climbs Sent</label>
+                <FieldArray name="climbs"
+                    render={arrayHelpers => (
                 <div>
                 {values.climbs && values.climbs.length > 0 ? (
                   <div>
-                  <label style={{"margin-right": "7.5em"}}>Grade</label>
-                  <label style={{"margin-right": "9em"}}>Attempts</label>
+                  <label>Grade</label>
+                  <label>Attempts</label>
                   <label>Description</label>
                   {values.climbs.map((climb, index) => (
                     <div key={index}>
@@ -119,9 +119,9 @@ const JournalLog= ({journalLog, userId, currentDate}) => {
                     Add a Climb(ex. V5)
                   </button>
                 )}
-              </div>
-                )}
-              />
+                </div>
+                 )}
+                />
              </div>
              </form>
             )} 
