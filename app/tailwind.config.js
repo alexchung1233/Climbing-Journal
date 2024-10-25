@@ -4,7 +4,6 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}",
     flowbite.plugin(),
   ],
-  darkMode: false,
   theme: {
     extend: {},
   },
